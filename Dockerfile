@@ -1,4 +1,4 @@
-# Use an official Node.js image
+
 FROM node:latest
 
 # Install bash (fixes env: can't execute 'bash' error)
