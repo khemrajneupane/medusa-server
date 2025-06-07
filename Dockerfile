@@ -1,21 +1,25 @@
 
 FROM node:latest
 
-# Install bash (fixes env: can't execute 'bash' error)
+# Install dependencies
 RUN apt-get update && apt-get install -y bash
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package*.json yarn.lock ./
-RUN yarn install
+# 1. First copy ONLY package files
+COPY package.json yarn.lock ./
 
-# Copy the source code
+# 2. Install dependencies
+RUN yarn install --frozen-lockfile
+
+# 3. Copy all other files
 COPY . .
 
-# Expose Medusa port
+# 4. Build the admin UI (critical step!)
+RUN yarn build 
+
+# Expose port (documentation only)
 EXPOSE 9000
 
-# Default command (override in docker-compose)
+# 5. Start in production mode
 CMD ["yarn", "start"]
