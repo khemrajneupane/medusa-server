@@ -1,4 +1,4 @@
-# Use an official Node.js image
+
 FROM node:latest
 
 # Install bash (fixes env: can't execute 'bash' error)
@@ -9,11 +9,11 @@ WORKDIR /app
 
 # Copy package files and install dependencies
 COPY package*.json yarn.lock ./
-RUN yarn install
+RUN yarn install --production && yarn cache clean
 
 # Copy the source code
 COPY . .
-
+RUN yarn build
 # Expose Medusa port
 EXPOSE 9000
 

@@ -5,13 +5,6 @@ name: Medusa Server Image to GHCR
 on:
   push:
     branches: [main]
-    paths:
-      - "**/Dockerfile"
-      - ".github/workflows/ghcr-publish.yml"
-      - "**/*.ts"
-      - "**/*.js"
-      - "package.json"
-      - "next.config.js"
 
 jobs:
   build-and-push:
