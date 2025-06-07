@@ -23,8 +23,7 @@ module.exports = defineConfig({
             resolve: "@medusajs/medusa/payment-stripe",
             id: "stripe",
             options: {
-              apiKey: process.env.STRIPE_API_KEY, // Make sure this matches your .env variable
-              webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+              apiKey: process.env.STRIPE_API_KEY,
             },
           },
         ],
@@ -36,11 +35,8 @@ module.exports = defineConfig({
       resolve: "@medusajs/admin",
       /** @type {import('@medusajs/admin').PluginOptions} */
       options: {
-        serve: true,
+        path: "app",
         autoRebuild: true,
-        backend: "https://medusa-backend-ky0d.onrender.com",
-        path: "/app",
-        outDir: "build",
       },
     },
   ],
