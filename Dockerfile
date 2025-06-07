@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 9000
 
 # Default command (override in docker-compose)
-CMD ["yarn", "dev"]
+CMD ["yarn", "start"]
