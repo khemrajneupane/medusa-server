@@ -13,7 +13,6 @@ RUN apk add --no-cache \
 
 WORKDIR /app
 
-# Copy package files and install production deps
 COPY package*.json yarn.lock ./
 RUN yarn install --production && yarn cache clean
 
