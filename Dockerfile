@@ -1,26 +1,21 @@
-FROM node:18 
+# Use an official Node.js image
+FROM node:latest
 
-# Install build dependencies (Debian/Ubuntu packages)
-RUN apt-get update && \
-    apt-get install -y \
-    python3 \
-    make \
-    g++ \
-    && rm -rf /var/lib/apt/lists/*
+# Install bash (fixes env: can't execute 'bash' error)
+RUN apt-get update && apt-get install -y bash
 
+# Set working directory
 WORKDIR /app
 
-# Copy package files first for better caching
-COPY package.json yarn.lock ./
-
+# Copy package files and install dependencies
+COPY package*.json yarn.lock ./
 RUN yarn install
 
-# Copy all other files
+# Copy the source code
 COPY . .
-
-# Build production assets
 RUN yarn build
-
-
+# Expose Medusa port
 EXPOSE 9000
+
+# Default command (override in docker-compose)
 CMD ["yarn", "start"]
