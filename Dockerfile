@@ -1,21 +1,33 @@
-# Use an official Node.js image
-FROM node:latest
+FROM node:lts-alpine
 
-# Install bash (fixes env: can't execute 'bash' error)
-RUN apt-get update && apt-get install -y bash
+# Set Node.js memory limit
+ENV NODE_OPTIONS="--max-old-space-size=2048"
 
-# Set working directory
+# Install git and build tools in a single layer, and clean up later
+RUN apk add --no-cache \
+  git \
+  python3 \
+  make \
+  g++ \
+  && mkdir /app
+
 WORKDIR /app
 
-# Copy package files and install dependencies
+# Copy package files and install production deps
 COPY package*.json yarn.lock ./
-RUN yarn install
+RUN yarn install --production && yarn cache clean
 
-# Copy the source code
+# Remove build tools to reduce final image size
+RUN apk del make g++ python3
+
+# Copy the rest of the app
 COPY . .
+
+# Build the app
 RUN yarn build
-# Expose Medusa port
+
+# Expose application port
 EXPOSE 9000
 
-# Default command (override in docker-compose)
+# Start the app
 CMD ["yarn", "start"]
