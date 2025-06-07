@@ -1,4 +1,5 @@
-FROM node:lts-alpine
+
+FROM node:latest
 
 # Set Node.js memory limit
 ENV NODE_OPTIONS="--max-old-space-size=2048"
@@ -21,11 +22,8 @@ RUN apk del make g++ python3
 
 # Copy the rest of the app
 COPY . .
-
-# Build the app
 RUN yarn build
-
-# Expose application port
+# Expose Medusa port
 EXPOSE 9000
 
 # Start the app
