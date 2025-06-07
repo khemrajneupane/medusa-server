@@ -10,7 +10,7 @@ services:
     ports:
       - "9000:9000"
     environment:
-      NODE_ENV: development
+      #NODE_ENV: development
       DATABASE_URL: ${DATABASE_URL}
       REDIS_URL: ${REDIS_URL}
       JWT_SECRET: ${JWT_SECRET}

@@ -36,8 +36,11 @@ module.exports = defineConfig({
       resolve: "@medusajs/admin",
       /** @type {import('@medusajs/admin').PluginOptions} */
       options: {
-        path: "app",
+        serve: true,
         autoRebuild: true,
+        backend: "https://medusa-backend-ky0d.onrender.com",
+        path: "/app",
+        outDir: "build",
       },
     },
   ],
