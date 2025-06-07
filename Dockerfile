@@ -1,25 +1,26 @@
+FROM node:18 
 
-FROM node:18-alpine
-
-# Install dependencies (bash not needed in production)
-RUN apk add --no-cache python3 make g++
+# Install build dependencies (Debian/Ubuntu packages)
+RUN apt-get update && \
+    apt-get install -y \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# 1. Copy only package files first for layer caching
+# Copy package files first for better caching
 COPY package.json yarn.lock ./
 
-# 2. Install dependencies with frozen lockfile
-RUN yarn install --frozen-lockfile --network-timeout 1000000
+RUN yarn install
 
-# 3. Copy all other files
+# Copy all other files
 COPY . .
 
-# 4. Build production assets
+# Build production assets
 RUN yarn build
 
-# 5. Verify admin build exists
-#RUN ls -la admin/dist/
 
 EXPOSE 9000
 CMD ["yarn", "start"]
